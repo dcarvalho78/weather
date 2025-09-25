@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Wetter</title>
+    <style>
+        body { font-family: sans-serif; background: #eef; padding: 2rem; }
+        .weather-box { background: white; padding: 1.5rem; border-radius: 10px; width: 250px; margin-bottom: 2rem; text-align: center; }
+        h2 { margin-top: 0; }
+        .forecast { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1rem; }
+        .day { background: white; padding: 1rem; border-radius: 8px; text-align: center; }
+    </style>
+</head>
+<body>
+    {% if weather %}
+        <div class="weather-box">
+            <h2>{{ weather.city }}</h2>
+            <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="Icon">
+            <p><strong>{{ weather.temp }}°C</strong></p>
+            <p>Feels like {{ weather.feels_like }}°C.</p>
+            <p>{{ weather.description }}.</p>
+            <p>Wind: {{ weather.wind }} m/s</p>
+        </div>
+
+        <h3>7-Tage-Vorschau</h3>
+        <div class="forecast">
+            {% for day in forecast %}
+                <div class="day">
+                    <p>{{ day.date|date:"D d.m" }}</p>
+                    <img src="http://openweathermap.org/img/wn/{{ day.icon }}@2x.png" alt="Icon">
+                    <p>🌞 {{ day.temp_day }}°C</p>
+                    <p>🌙 {{ day.temp_night }}°C</p>
+                    <p>{{ day.description }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Keine Wetterdaten verfügbar.</p>
+    {% endif %}
+</body>
+</html>
